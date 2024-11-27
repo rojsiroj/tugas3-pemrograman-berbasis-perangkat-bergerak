@@ -60,6 +60,7 @@ export default defineComponent({
   },
   methods: {
     async getData(): Promise<void> {
+      console.log("Clicked");
       try {
         // Fetch data dengan axios
         const response: AxiosResponse<ResponseCryptoData> = await axios.get(
@@ -88,7 +89,7 @@ export default defineComponent({
 .button-container {
   display: flex;
   justify-content: center;
-  margin: 16px;
+  margin: 10px;
 }
 
 /* Table */
