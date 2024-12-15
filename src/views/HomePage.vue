@@ -5,29 +5,31 @@
       <div class="container">
         <!-- Button -->
         <div class="button-container">
-          <ion-button @click="getData()" class="custom-button">
-            Get Data
+          <ion-button @click="getData()" class="custom-button ion-padding">
+            Refresh
           </ion-button>
         </div>
 
         <!-- Table -->
         <ion-grid class="custom-grid">
-          <!-- Table Header -->
-          <ion-row class="table-header">
-            <ion-col>Name</ion-col>
-            <ion-col>Symbol</ion-col>
-            <ion-col>Harga USD</ion-col>
-          </ion-row>
-
           <!-- Table Rows -->
           <ion-row
-            v-for="crypto in cryptoData"
+            v-for="(crypto, index) in cryptoData"
             :key="crypto.id"
             class="table-row"
           >
-            <ion-col>{{ crypto.name }}</ion-col>
-            <ion-col>{{ crypto.symbol }}</ion-col>
-            <ion-col>{{ crypto.price_usd }}</ion-col>
+            <ion-col class="table-col text-center">
+              <p class="text-top">Rank</p>
+              <p class="text-bottom">{{ index + 1 }}</p>
+            </ion-col>
+            <ion-col class="table-col">
+              <p class="text-top">{{ crypto.name }}</p>
+              <p class="text-bottom">{{ crypto.symbol }}</p>
+            </ion-col>
+            <ion-col class="table-col">
+              <p class="text-top">USD</p>
+              <p class="text-bottom">{{ crypto.price_usd }}</p>
+            </ion-col>
           </ion-row>
         </ion-grid>
       </div>
@@ -58,9 +60,11 @@ export default defineComponent({
       cryptoData: [] as CryptoData[],
     };
   },
+  mounted() {
+    this.getData();
+  },
   methods: {
     async getData(): Promise<void> {
-      console.log("Clicked");
       try {
         // Fetch data dengan axios
         const response: AxiosResponse<ResponseCryptoData> = await axios.get(
@@ -79,31 +83,45 @@ export default defineComponent({
 <style scoped>
 /* Container */
 .container {
-  padding: 10px 0px;
+  padding: 0;
 }
 
 /* Button */
 .custom-button {
   color: white !important;
+  font-size: 14pt;
 }
 .button-container {
   display: flex;
   justify-content: center;
-  margin: 10px;
 }
 
 /* Table */
 .custom-grid {
-  border: 2px solid #000;
   color: #000;
   overflow: hidden;
+  display: inline;
 }
-.table-header {
-  font-weight: bold;
-  border-bottom: 2px solid #000;
-  padding: 10px;
+.table-col {
+  padding: 0px;
+}
+.table-col p {
+  padding: 0px;
+  margin: 5px;
+}
+.text-center {
+  text-align: center;
 }
 .table-row {
   padding: 10px;
+  background: #fff1c5;
+  border: 1px solid #efc74e;
+}
+.text-top {
+  font-size: 10pt;
+}
+.text-bottom {
+  font-size: 22pt;
+  font-weight: bold;
 }
 </style>
